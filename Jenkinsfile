@@ -71,25 +71,25 @@ pipeline {
     stages {
         stage('Setup Python') {
             steps {
-                sh 'python3 -m venv venv'
+                sh 'bash -c "python3 -m venv venv"'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'venv/bin/pip install requests python-dotenv'
+                sh 'bash -c "venv/bin/pip install requests python-dotenv"'
             }
         }
 
         stage('Create Repository') {
             steps {
-                sh 'python3 repo_creat.py ${params.REPO_NAME}'
+                sh 'bash -c "venv/bin/python repo_creat.py ${params.REPO_NAME}"'
             }
         }
 
         stage('Create Jenkins Pipeline Job') {
             steps {
-                sh 'python3 create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}'
+                sh 'bash -c "venv/bin/python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}"'
             }
         }
     }
