@@ -182,7 +182,7 @@ pipeline_config = f"""\
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/{GITHUB_REPO}.git</url>
+          <url>git@github.com/{GITHUB_REPO}.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>

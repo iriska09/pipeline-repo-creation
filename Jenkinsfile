@@ -60,8 +60,8 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'REPO_NAME', defaultValue: 'Hello-', description: 'Name of the repository to create')
-        string(name: 'JOB_NAME', defaultValue: 'my-pipeline', description: 'Name of the Jenkins job to create')
+        string(name: 'REPO_NAME', defaultValue: 'demo-repo', description: 'Name of the repository to create')
+        string(name: 'JOB_NAME', defaultValue: 'demo-pipeline', description: 'Name of the Jenkins job to create')
     }
 
     stages {
