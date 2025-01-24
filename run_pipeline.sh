@@ -13,7 +13,7 @@ source venv/bin/activate
 pip install requests python-dotenv
 
 # Create repository
-python repo_creat.py "$1"
+python /var/jenkins_home/workspace/test-job/repo_creat.py "$1"
 
 # Create Jenkins pipeline job
-python create_pipeline.py "$1" "$2"
+python /var/jenkins_home/workspace/test-job/create_pipeline.py "$1" "$2"
