@@ -60,11 +60,20 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'REPO_NAME', defaultValue: 'hello-', description: 'Name of the repository to create')
+        string(name: 'REPO_NAME', defaultValue: 'Hello-', description: 'Name of the repository to create')
         string(name: 'JOB_NAME', defaultValue: 'my-pipeline', description: 'Name of the Jenkins job to create')
     }
 
     stages {
+        stage('Check Workspace') {
+            steps {
+                script {
+                    sh 'pwd'
+                    sh 'ls -la'
+                }
+            }
+        }
+
         stage('Prepare Script') {
             steps {
                 sh 'chmod +x run_pipeline.sh'
@@ -73,11 +82,7 @@ pipeline {
 
         stage('Run Pipeline Script') {
             steps {
-                script {
-                    def repoName = params.REPO_NAME
-                    def jobName = params.JOB_NAME
-                    sh "./run_pipeline.sh ${repoName} ${jobName}"
-                }
+                sh "./run_pipeline.sh ${params.REPO_NAME} ${params.JOB_NAME}"
             }
         }
     }
