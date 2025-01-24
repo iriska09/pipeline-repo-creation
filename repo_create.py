@@ -54,7 +54,7 @@ data = {
 }
 
 response = requests.post(
-    'https://api.github.com/repos/sdfsdf/sfdfs-repository-template/generate',
+    'https://api.github.com/repos/iriska09/developer-repository-template/generate',
     headers=headers,
     data=json.dumps(data)
 )
