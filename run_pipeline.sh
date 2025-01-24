@@ -25,7 +25,7 @@ pip list
 
 # Install dependencies
 echo "Installing dependencies..."
-pip install requests python-dotenv jenkins
+pip install requests python-dotenv python-jenkins
 
 # List installed packages for verification after installation
 echo "Installed packages after installation:"
