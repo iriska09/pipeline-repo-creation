@@ -64,32 +64,16 @@ pipeline {
         string(name: 'JOB_NAME', defaultValue: 'my-pipeline', description: 'Name of the Jenkins job to create')
     }
 
-    environment {
-        PATH = "${env.PATH}:${WORKSPACE}/venv/bin"
-    }
-
     stages {
-        stage('Setup Python') {
+        stage('Prepare Script') {
             steps {
-                sh 'bash -c "python3 -m venv venv"'
+                sh 'chmod +x run_pipeline.sh'
             }
         }
-
-        stage('Install Dependencies') {
+        
+        stage('Run Pipeline Script') {
             steps {
-                sh 'bash -c "venv/bin/pip install requests python-dotenv"'
-            }
-        }
-
-        stage('Create Repository') {
-            steps {
-                sh 'bash -c "venv/bin/python repo_creat.py ${params.REPO_NAME}"'
-            }
-        }
-
-        stage('Create Jenkins Pipeline Job') {
-            steps {
-                sh 'bash -c "venv/bin/python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}"'
+                sh './run_pipeline.sh ${params.REPO_NAME} ${params.JOB_NAME}'
             }
         }
     }
@@ -100,3 +84,4 @@ pipeline {
         }
     }
 }
+
