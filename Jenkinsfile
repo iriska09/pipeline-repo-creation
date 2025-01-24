@@ -65,48 +65,31 @@ pipeline {
     }
 
     environment {
-        PYTHON_VENV = 'venv'  // Name of your Python virtual environment
+        PATH = "${env.PATH}:${WORKSPACE}/venv/bin"
     }
 
     stages {
-        stage('Setup') {
+        stage('Setup Python') {
             steps {
-                script {
-                    // Ensure the virtual environment is set up
-                    if (!fileExists("${PYTHON_VENV}/bin/activate")) {
-                        sh 'python3 -m venv venv'
-                    }
-                }
+                sh 'python3 -m venv venv'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh """
-                #!/bin/bash
-                source ${PYTHON_VENV}/bin/activate
-                pip install requests python-dotenv
-                """
+                sh 'venv/bin/pip install requests python-dotenv'
             }
         }
 
         stage('Create Repository') {
             steps {
-                sh """
-                #!/bin/bash
-                source ${PYTHON_VENV}/bin/activate
-                python repo_creat.py ${params.REPO_NAME}
-                """
+                sh 'venv/bin/python repo_creat.py ${params.REPO_NAME}'
             }
         }
 
         stage('Create Jenkins Pipeline Job') {
             steps {
-                sh """
-                #!/bin/bash
-                source ${PYTHON_VENV}/bin/activate
-                python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}
-                """
+                sh 'venv/bin/python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}'
             }
         }
     }
