@@ -2,6 +2,7 @@ import jenkins
 import requests
 from dotenv import load_dotenv
 import os
+import sys 
 
 # Get variables from .env
 load_dotenv()
