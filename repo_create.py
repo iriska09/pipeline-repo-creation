@@ -27,6 +27,7 @@
 #     print(f"Repository '{repo_name}' created successfully.")
 # else:
 #     print(f"Failed to create repository: {response.json()}")
+
 import requests
 import json
 import sys
@@ -38,6 +39,10 @@ load_dotenv()
 
 # Get GITHUB_WEBHOOK from environment variables
 GITHUB_WEBHOOK = os.getenv('GITHUB_WEBHOOK')
+
+if not GITHUB_WEBHOOK:
+    print("Error: GITHUB_WEBHOOK is not set in .env file.")
+    sys.exit(1)
 
 # Read repository name from command-line argument
 repo_name = sys.argv[1]
