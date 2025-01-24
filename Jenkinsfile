@@ -83,13 +83,13 @@ pipeline {
 
         stage('Create Repository') {
             steps {
-                sh 'venv/bin/python repo_creat.py ${params.REPO_NAME}'
+                sh 'python3 repo_creat.py ${params.REPO_NAME}'
             }
         }
 
         stage('Create Jenkins Pipeline Job') {
             steps {
-                sh 'venv/bin/python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}'
+                sh 'python3 create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}'
             }
         }
     }
