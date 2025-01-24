@@ -73,7 +73,7 @@ pipeline {
             steps {
                 script {
                     // Ensure the virtual environment is set up
-                    if (!fileExists("${env.PYTHON_VENV}/bin/activate")) {
+                    if (!fileExists("${PYTHON_VENV}/bin/activate")) {
                         sh 'python3 -m venv venv'
                     }
                 }
@@ -82,25 +82,31 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'bash -c ". ${env.PYTHON_VENV}/bin/activate && pip install requests python-dotenv"'
+                sh """
+                #!/bin/bash
+                source ${PYTHON_VENV}/bin/activate
+                pip install requests python-dotenv
+                """
             }
         }
 
         stage('Create Repository') {
             steps {
-                script {
-                    def workspace = pwd()
-                    sh "bash -c 'cd ${workspace} && . ${env.PYTHON_VENV}/bin/activate && python repo_creat.py ${params.REPO_NAME}'"
-                }
+                sh """
+                #!/bin/bash
+                source ${PYTHON_VENV}/bin/activate
+                python repo_creat.py ${params.REPO_NAME}
+                """
             }
         }
 
         stage('Create Jenkins Pipeline Job') {
             steps {
-                script {
-                    def workspace = pwd()
-                    sh "bash -c 'cd ${workspace} && . ${env.PYTHON_VENV}/bin/activate && python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}'"
-                }
+                sh """
+                #!/bin/bash
+                source ${PYTHON_VENV}/bin/activate
+                python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}
+                """
             }
         }
     }
