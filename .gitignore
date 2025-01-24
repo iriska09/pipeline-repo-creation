@@ -1,4 +1,4 @@
 # Ignore environment and config files
-.env
+# .env
 config.json
 secret-key.txt
