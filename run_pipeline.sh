@@ -5,6 +5,10 @@ set -e
 
 # Get the current working directory
 WORKSPACE=$(pwd)
+echo "Current working directory: $WORKSPACE"
+
+# List the contents of the working directory
+ls -la $WORKSPACE
 
 # Setup Python virtual environment
 python3 -m venv "$WORKSPACE/venv"
