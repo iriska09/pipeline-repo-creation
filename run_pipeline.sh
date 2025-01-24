@@ -31,10 +31,14 @@ pip install requests python-dotenv
 echo "Installed packages after installation:"
 pip list
 
+# List the contents again to confirm before running the script
+echo "Contents of the working directory before running scripts:"
+ls -la $WORKSPACE
+
 # Create repository
 echo "Running repo_creat.py..."
-python "$WORKSPACE/repo_creat.py" "$1"
+python "$WORKSPACE/repo_create.py" "$1"
 
 # Create Jenkins pipeline job
 echo "Running create_pipeline.py..."
-python "$WORKSPACE/create_pipeline.py" "$1" "$2"
+python "$WORKSPACE/pipeline_create.py" "$1" "$2"
