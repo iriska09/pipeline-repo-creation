@@ -137,9 +137,15 @@ GITHUB_WEBHOOK = os.getenv('GITHUB_WEBHOOK')
 SLACK_TOKEN = os.getenv('SLACK_TOKEN')
 SLACK_CHANNEL = os.getenv('SLACK_CHANNEL')
 
+# Default GitHub owner (replace this with the actual owner)
+GITHUB_OWNER = 'iriska09'
+
 # Read repository name from command-line argument
-GITHUB_REPO = sys.argv[1]
+REPO_NAME = sys.argv[1]
 JOB_NAME = sys.argv[2]
+
+# Construct the full GITHUB_REPO
+GITHUB_REPO = f'{GITHUB_OWNER}/{REPO_NAME}'
 
 # Add this line to check the value of GITHUB_REPO
 print(f"GITHUB_REPO: {GITHUB_REPO}")
@@ -176,7 +182,7 @@ pipeline_config = f"""\
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>{GITHUB_REPO}</url>
+          <url>https://github.com/{GITHUB_REPO}.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
