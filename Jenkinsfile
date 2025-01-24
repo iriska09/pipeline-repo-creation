@@ -82,28 +82,25 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh """
-                . ${env.PYTHON_VENV}/bin/activate
-                pip install requests python-dotenv
-                """
+                sh 'bash -c ". ${env.PYTHON_VENV}/bin/activate && pip install requests python-dotenv"'
             }
         }
 
         stage('Create Repository') {
             steps {
-                sh """
-                . ${env.PYTHON_VENV}/bin/activate
-                python repo_creat.py ${params.REPO_NAME}
-                """
+                script {
+                    def workspace = pwd()
+                    sh "bash -c 'cd ${workspace} && . ${env.PYTHON_VENV}/bin/activate && python repo_creat.py ${params.REPO_NAME}'"
+                }
             }
         }
 
         stage('Create Jenkins Pipeline Job') {
             steps {
-                sh """
-                . ${env.PYTHON_VENV}/bin/activate
-                python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}
-                """
+                script {
+                    def workspace = pwd()
+                    sh "bash -c 'cd ${workspace} && . ${env.PYTHON_VENV}/bin/activate && python create_pipeline.py ${params.REPO_NAME} ${params.JOB_NAME}'"
+                }
             }
         }
     }
