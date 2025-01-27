@@ -19,8 +19,6 @@ pipeline {
         stage('Prepare Script [Abduls version]') {
             steps {
                 sh """
-                python3 -m venv ${params.REPO_NAME}
-                source activate ${params.REPO_NAME}/bin/activate
                 pip install requests python-dotenv python-jenkins
                 python repo_create.py ${params.REPO_NAME}
                 python pipeline_create.py ${params.REPO_NAME} ${params.JOB_NAME}
