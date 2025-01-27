@@ -22,8 +22,8 @@ pipeline {
                 python3 -m venv ${params.REPO_NAME}
                 source activate ${params.REPO_NAME}/bin/activate
                 pip install requests python-dotenv python-jenkins
-                python repo_create.py $1
-                python pipeline_create.py $1 $2
+                python repo_create.py ${params.REPO_NAME}
+                python pipeline_create.py ${params.REPO_NAME} ${params.JOB_NAME}
                 """
             }
         }
@@ -41,9 +41,9 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            cleanWs() 
-        }
-    }
+    // post {
+    //     always {
+    //         cleanWs() 
+    //     }
+    // }
 }
