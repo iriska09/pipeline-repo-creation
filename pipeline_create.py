@@ -4,11 +4,11 @@ from dotenv import load_dotenv
 import os
 import sys
 
-# Add this line to check the value of GITHUB_REPO
+# Add this line to check the value prints the list of command-line arguments passed to the script
 print(f"sys.argv: {sys.argv}")
 
 # Get variables from .env
-load_dotenv()
+# load_dotenv()
 
 # Fetch environment variables
 JENKINS_URL = os.getenv('JENKINS_URL')
@@ -18,31 +18,32 @@ GITHUB_WEBHOOK = os.getenv('GITHUB_WEBHOOK')
 SLACK_TOKEN = os.getenv('SLACK_TOKEN')
 SLACK_CHANNEL = os.getenv('SLACK_CHANNEL')
 
-# Default GitHub owner (replace this with the actual owner)
+# This woner name will be used to create the full GitHub repository URL later for webhooks 
 GITHUB_OWNER = 'iriska09'
 
-# Read repository name from command-line argument
+#these lines will read first and second command-line arguments passed to the script and assign them to REPO_NAME and JOB_NAME 
 REPO_NAME = sys.argv[1]
 JOB_NAME = sys.argv[2]
 
-# Construct the full GITHUB_REPO
+# creates the full GITHUB_REPO url combining the name and repo name 
 GITHUB_REPO = f'{GITHUB_OWNER}/{REPO_NAME}'
 
-# Add this line to check the value of GITHUB_REPO
+# Add this line to check the value of GITHUB_REPO url to check if it is correct url
 print(f"GITHUB_REPO: {GITHUB_REPO}")
 
-# Extract GitHub owner and repository name from GITHUB_REPO
+# Extract GitHub owner and repository name from GITHUB_REPO takes the user name and repo name by splitting and makes list
 repo_parts = GITHUB_REPO.split('/')
 print(f"repo_parts: {repo_parts}")
-
+# and then it will check if there is small than 2 elements it will give error 
 if len(repo_parts) < 2:
-    print("Error: GITHUB_REPO argument is not in the expected format 'owner/repo'.")
+    print("Error: GITHUB_REPO  is not in the expected format 'owner/repo'.")
     sys.exit(1)
 
 repo_owner = repo_parts[-2]
 repo_name = repo_parts[-1].replace('.git', '')
 
-# XML configuration for the pipeline job with webhook trigger
+# XML configuration for the pipeline job with webhook trigger setting branches and all from jenkins APIs 
+# use open() and close() function that will read pipline.xml
 pipeline_config = f"""\
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.39">
@@ -82,12 +83,12 @@ pipeline_config = f"""\
 </flow-definition>
 """
 
-# Create Jenkins server connection
+# Create Jenkins server connection with user name and password using the URL
 try:
     server = jenkins.Jenkins(JENKINS_URL, username=JENKINS_USER, password=JENKINS_PASSWORD)
 
-    if server.job_exists(JOB_NAME):
-        server.delete_job(JOB_NAME)
+    if server.job_exists(JOB_NAME):            #checks if the job exists with that name 
+        server.delete_job(JOB_NAME)            # if it exists it will delete
 
     server.create_job(JOB_NAME, pipeline_config)
 
@@ -96,7 +97,7 @@ try:
 except jenkins.JenkinsException as e:
     print(f"Failed to create pipeline job: {e}")
 
-# Setup GitHub webhook
+# Setup GitHub webhook makes APi call to check if webhook is already exist or no 
 try:
     headers = {
         'Content-Type': 'application/json',
@@ -108,7 +109,7 @@ try:
     if response.status_code == 200:
         hooks = response.json()
         for hook in hooks:
-            if hook['config']['url'] == f'{JENKINS_URL}/github-webhook/':
+            if hook['config']['url'] == f'{JENKINS_URL}/github-webhook/':    #it will Checks if the webhook URL matches the Jenkins webhook URL
                 existing_webhook = True
                 break
 

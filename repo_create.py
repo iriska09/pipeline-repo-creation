@@ -4,17 +4,17 @@ import sys
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
-load_dotenv()
+# get all environment variables from .env file
+# load_dotenv()
 
-# Get GITHUB_WEBHOOK from environment variables
+# get GITHUB_WEBHOOK  it is  actually github token from environment variables
 GITHUB_WEBHOOK = os.getenv('GITHUB_WEBHOOK')
 
 if not GITHUB_WEBHOOK:
-    print("Error: GITHUB_WEBHOOK is not set in .env file.")
+    print("Error: GITHUB_WEBHOOK is not set in env file")
     sys.exit(1)
 
-# Read repository name from command-line argument
+# Read repository name from command-line argument that we passed to the script argv[0] is script name and argv[1] is repo name 
 repo_name = sys.argv[1]
 
 headers = {

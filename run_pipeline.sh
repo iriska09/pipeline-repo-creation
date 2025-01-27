@@ -1,45 +1,43 @@
 #!/bin/bash
 
-# Exit on any error
+# this code will exit if there is going to be any error 
 set -e
 
-# Get the current working directory
-WORKSPACE=$(pwd)
-echo "Current working directory: $WORKSPACE"
 
-# List the contents of the working directory
+WORKSPACE=$(pwd)
+echo " current working directory: $WORKSPACE"
+
+# check the content of the working directory
 echo "Contents of the working directory:"
 ls -la $WORKSPACE
 
-# Setup Python virtual environment
-echo "Setting up Python virtual environment..."
+# set up virtual environment to avoide conflicts
+echo "Setting up  virtual environment "
 python3 -m venv "$WORKSPACE/venv"
-
 # Activate virtual environment
-echo "Activating virtual environment..."
 source "$WORKSPACE/venv/bin/activate"
 
-# List installed packages for verification
-echo "Installed packages in the virtual environment:"
+# list installed packages to see and verify
+echo "all installed packages in the  environment"
 pip list
 
-# Install dependencies
-echo "Installing dependencies..."
+# install all dependencies
+echo "installing dependencies "
 pip install requests python-dotenv python-jenkins
 
-# List installed packages for verification after installation
-echo "Installed packages after installation:"
+# list packages to check if it is installed  verify
+echo "list installed packages after installation"
 pip list
 
-# List the contents again to confirm before running the script
-echo "Contents of the working directory before running scripts:"
+# list everything again to check before running the script
+echo "this is the contents of the working directory "
 ls -la $WORKSPACE
 
-# Create repository
-echo "Running repo_creat.py..."
+# run the repo creation python script $1 first commad line argument passed represents a repo name 
+echo "Running repo_creat.py file "
 python "$WORKSPACE/repo_create.py" "$1"
 
-# Create Jenkins pipeline job
-echo "Running create_pipeline.py..."
+# run the pipeliine creation python script jenkins job name and repo sname form command line argument
+echo "Running create_pipeline.py file"
 python "$WORKSPACE/pipeline_create.py" "$1" "$2"
 
