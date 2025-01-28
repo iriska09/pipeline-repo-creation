@@ -16,7 +16,7 @@ pipeline {
             }
         }
 
-        stage('Prepare Script [Abduls version]') {
+        stage('Prepare Script') {
             steps {
                 sh """
                 python3 -m venv .venv
