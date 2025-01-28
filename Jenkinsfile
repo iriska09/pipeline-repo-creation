@@ -27,23 +27,11 @@ pipeline {
                 """
             }
         }
-
-        stage('Prepare Script') {
-            steps {
-                sh 'chmod +x run_pipeline.sh'
-            }
-        }
-
-        stage('Run Pipeline Script') {
-            steps {
-                sh "./run_pipeline.sh ${params.REPO_NAME} ${params.JOB_NAME}"
-            }
-        }
     }
 
-    // post {
-    //     always {
-    //         cleanWs() 
-    //     }
-    // }
+    post {
+        always {
+            cleanWs() 
+        }
+    }
 }
